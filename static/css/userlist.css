@@ -1,0 +1,51 @@
+/* admin.css */
+
+.user-table-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9fbfd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.styled-table thead tr {
+    background-color: #4e73df;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #e3e6f0;
+}
+
+.styled-table tbody tr {
+    background-color: #ffffff;
+    transition: background-color 0.2s;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f8f9fc;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e2e6ea;
+    cursor: pointer;
+}

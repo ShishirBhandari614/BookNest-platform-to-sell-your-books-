@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Your Online Book Marketplace</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+   
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/">
+                    <img src="{% static 'images/logo.png' %}" alt="BookNest Logo">
+                </a>
+            </div>
+            <div class="search-container">
+                <form action="#" method="GET">
+                    <input type="text" placeholder="Search for books..." name="search">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="nav-links">
+                
+                <div class="dropdown">
+                    <button class="dropbtn">Become a Seller
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'seller-registration' %}">Sign Up</a>
+                        <a href="{% url 'seller-login' %}">Login</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Become a Buyer
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'buyer-registration' %}">Sign Up</a>
+                        <a href="{% url 'buyer-login' %}">Login</a>
+                    </div>
+                    
+                </div>
+                <div class="admin-login ">
+                    <a href="{% url 'admin-login' %}">login as admin</a>
+
+                </div>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to BookNest</h1>
+            <p>Your one-stop destination for buying and selling books online</p>
+            <div class="hero-buttons">
+                <a href="#popular-books" class="btn btn-primary">Start Buying</a>
+                <a href="{% url 'seller-registration' %}" class="btn btn-secondary">Start Selling</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose BookNest?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-book"></i>
+                <h3>Wide Selection</h3>
+                <p>Browse through thousands of books from various genres and authors</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tags"></i>
+                <h3>Best Prices</h3>
+                <p>Find great deals on new and used books from sellers worldwide</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Transactions</h3>
+                <p>Safe and secure payment processing for all your purchases</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-truck"></i>
+                <h3>Fast Delivery</h3>
+                <p>Quick and reliable shipping to your doorstep</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Books Section -->
+    <section id="popular-books" class="popular-books">
+        <h2>Popular Books</h2>
+        <div class="books-grid">
+            <!-- Book cards will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About BookNest</h3>
+                <p>Your trusted online marketplace for buying and selling books. Join our community of book lovers today!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#popular-books">Popular Books</a></li>
+                    <li><a href="{% url 'seller-registration' %}">Become a Seller</a></li>
+                    <li><a href="{% url 'buyer-registration' %}">Become a Buyer</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 BookNest. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html> 

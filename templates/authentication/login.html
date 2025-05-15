@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Welcome Back</h1>
+                <p>Login to your BookNest account</p>
+            </div>
+
+            <div class="user-type-toggle">
+                <button class="toggle-btn active" data-type="seller">Seller Login</button>
+                <button class="toggle-btn" data-type="buyer">Buyer Login</button>
+            </div>
+
+            <!-- Seller Login Form -->
+            <form id="sellerLoginForm" class="login-form active">
+                <div class="form-group">
+                    <label for="seller-email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="seller-email" name="email" required>
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="seller-password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="seller-password" name="password" required>
+                        <i class="fas fa-eye-slash toggle-password"></i>
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Login as Seller</button>
+                </div>
+
+                <div class="form-footer">
+                    <p>Don't have a seller account? <a href="/seller-signup/">Sign up</a></p>
+                </div>
+            </form>
+
+            <!-- Buyer Login Form -->
+            <form id="buyerLoginForm" class="login-form">
+                <div class="form-group">
+                    <label for="buyer-email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="buyer-email" name="email" required>
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="buyer-password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="buyer-password" name="password" required>
+                        <i class="fas fa-eye-slash toggle-password"></i>
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Login as Buyer</button>
+                </div>
+
+                <div class="form-footer">
+                    <p>Don't have a buyer account? <a href="/buyer-signup/">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/login.js' %}"></script>
+
+</body>
+</html>

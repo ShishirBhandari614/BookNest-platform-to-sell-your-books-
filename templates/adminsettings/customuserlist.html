@@ -1,0 +1,41 @@
+
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/userlist.css' %}">
+
+<div class="user-table-container">
+    <h1 class="page-title">User List</h1>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Is Seller</th>
+                <th>Is Buyer</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.is_seller }}</td>
+                <td>{{ user.is_buyer }}</td>
+                <td>{{ user.is_active }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

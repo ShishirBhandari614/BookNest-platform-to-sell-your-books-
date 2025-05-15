@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/buyer_base.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="#"><img src="{% static 'images/logo.png' %}" alt="BookNest Logo"></a>
+        </div>
+        <div class="hamburger-menu">
+            <i class="fas fa-bars" id="hamburger"></i>
+            <div class="dropdown-content" id="dropdown">
+                <ul>
+                    <li><i class="fas fa-chart-line"></i> Most Bought</li>
+                    <li><i class="fas fa-search"></i> Most Searched</li>
+                    <li class="genre-browse"><i class="fas fa-book"></i> Browse by Genre</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Add this after the hamburger-menu div -->
+        <div class="genre-box" id="genre-box">
+            <div class="genre-grid">
+                <div class="genre-item">Fantasy</div>
+                <div class="genre-item">Sci-Fi</div>
+                <div class="genre-item">Romance</div>
+                <div class="genre-item">Mystery</div>
+                <div class="genre-item">Thriller</div>
+                <div class="genre-item">Horror</div>
+                <div class="genre-item">Biography</div>
+                <div class="genre-item">History</div>
+                <div class="genre-item">Poetry</div>
+                <div class="genre-item">Drama</div>
+                <div class="genre-item">Adventure</div>
+                <div class="genre-item">Children</div>
+                <div class="genre-item">Young Adult</div>
+                <div class="genre-item">Self-Help</div>
+                <div class="genre-item">Business</div>
+                <div class="genre-item">Cooking</div>
+                <div class="genre-item">Art & Design</div>
+                <div class="genre-item">Travel</div>
+                <div class="genre-item">Philosophy</div>
+                <div class="genre-item">Psychology</div>
+                <div class="genre-item">Science</div>
+                <div class="genre-item">Technology</div>
+                <div class="genre-item">Education</div>
+                <div class="genre-item">Comics</div>
+                <div class="genre-item">Health & Fitness</div>
+                <div class="genre-item">Religion</div>
+                <div class="genre-item">Sports</div>
+                <div class="genre-item">True Crime</div>
+                <div class="genre-item">Humor</div>
+                <div class="genre-item">Literary Fiction</div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-sync-alt"></i>
+            <i class="fas fa-heart"></i>
+            <i class="fas fa-user"></i>
+            <i class="fas fa-shopping-cart"></i>
+            <span>Rs 0.00</span>
+        </div>
+    </nav>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent click from bubbling to document
+            document.getElementById('dropdown').classList.toggle('show');
+        });
+
+        // Close dropdown when clicking anywhere else on the document
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('dropdown');
+            const hamburger = document.getElementById('hamburger');
+            if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        document.getElementById('see-more').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('more-genres').classList.toggle('show');
+        });
+
+        // Handle genre toggle
+        document.getElementById('genre-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('genre-panel').classList.toggle('show-genre');
+            // Toggle the arrow icon direction
+            const arrow = this.querySelector('i');
+            if (arrow.classList.contains('fa-chevron-right')) {
+                arrow.classList.remove('fa-chevron-right');
+                arrow.classList.add('fa-chevron-down');
+            } else {
+                arrow.classList.remove('fa-chevron-down');
+                arrow.classList.add('fa-chevron-right');
+            }
+        });
+        
+        // Close genre panel when clicking outside
+        document.addEventListener('click', function(e) {
+            const genrePanel = document.getElementById('genre-panel');
+            const genreToggle = document.getElementById('genre-toggle');
+            
+            if (!genreToggle.contains(e.target) && !genrePanel.contains(e.target)) {
+                genrePanel.classList.remove('show-genre');
+                const arrow = genreToggle.querySelector('i');
+                arrow.classList.remove('fa-chevron-down');
+                arrow.classList.add('fa-chevron-right');
+            }
+        });
+    </script>
+
+    <!-- Add this CSS in the head section -->
+    
+    <!-- Update the JavaScript section -->
+    <script>
+        // Add this new code for genre box
+        const genreBrowse = document.querySelector('.genre-browse');
+        const genreBox = document.getElementById('genre-box');
+
+        genreBrowse.addEventListener('click', function(e) {
+            e.stopPropagation();
+            genreBox.classList.toggle('show-genre-box');
+        });
+
+        // Close genre box when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!genreBox.contains(e.target) && !genreBrowse.contains(e.target)) {
+                genreBox.classList.remove('show-genre-box');
+            }
+        });
+    </script>
+</body>
+</html>
