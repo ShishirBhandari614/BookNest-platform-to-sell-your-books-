@@ -196,3 +196,51 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(66, 153, 225, 0.4);
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 0 20px #444;
+  }
+  
+  .modal-actions button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal-actions button:first-child {
+    background-color: #e53935;
+    color: white;
+  }
+  
+  .modal-actions button:last-child {
+    background-color: #ccc;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .blur {
+    filter: blur(4px);
+    pointer-events: none;
+  }
+  

@@ -1,14 +1,153 @@
 {% extends 'buyer_base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="book-list">
-    <h2>Random Books</h2>
-    <ul>
-        <li>Book 1 - Genre: Fantasy</li>
-        <li>Book 2 - Genre: Sci-Fi</li>
-        <li>Book 3 - Genre: Romance</li>
-        <li>Book 4 - Genre: Thriller</li>
-        <li>Book 5 - Genre: Adventure</li>
-    </ul>
+{% csrf_token %}
+<link rel="stylesheet" href="{% static 'css/buyer_das.css' %}">
+
+<h2 class="text-center my-4">Books For Sale</h2>
+<div class="book-grid">
+  {% for book in books %}
+    <div class="book-card">
+      <img src="{{ book.book_cover.url }}" alt="{{ book.book_name }}">
+      <div class="book-info">
+        <h3>{{ book.book_name }}</h3>
+        <p class="author">Author: {{ book.author }}</p>
+        <p class="price">Rs{{ book.book_price }} NPR</p>
+      
+        {% if book.sold %}
+          <button class="sold-out" disabled>Sold out</button>
+        {% else %}
+          <a href="#" class="add-to-cart" 
+             data-book-id="{{ book.id }}"
+             data-book-name="{{ book.book_name }}"
+             data-book-cover="{{ book.book_cover.url }}"
+             data-cart-count="{{total_cart_items}}">
+            Add to cart
+          </a>
+          <a href="{% url 'buy_book' book.id %}" class="buy-now">Buy Now</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+  
+  <!-- Enhanced Cart Popup -->
+    <!-- Enhanced Cart Popup -->
+    <div id="cartPopup" class="popup hidden">
+      <div class="popup-content">
+        <span class="close">&times;</span>
+        <div class="popup-header">
+          <span class="success-icon">✓</span>
+          <h3 class="popup-title">Item added to your cart</h3>
+        </div>
+        <div class="popup-book-details">
+          <img id="popup-book-image" src="" alt="" class="popup-book-image">
+          <div class="popup-book-info">
+            <h4 id="popup-book-title" class="popup-book-title"></h4>
+            <p class="cart-count">Cart items: <span id="cart-item-count">0</span></p>
+            {% comment %} <p id="popup-book-condition" class="popup-book-condition"></p> {% endcomment %}
+            
+          </div>
+        </div>
+        <div class="popup-buttons">
+          <a href="#" class="view-cart-btn">View cart</a>
+          <a href="#" class="checkout-btn">Check out</a>
+          <a href="#" class="continue-shopping-btn" id="continueShoppingBtn">Continue shopping</a>
+        </div>
+      </div>
+    </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const csrftoken = getCookie('csrftoken');
+    const cartPopup = document.getElementById('cartPopup');
+    const closeBtn = document.querySelector('.popup .close');
+    const continueBtn = document.getElementById('continueShoppingBtn');
+    
+    // Close popup handlers
+    closeBtn.addEventListener('click', closeCartPopup);
+    continueBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeCartPopup();
+    });
+    
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        const bookId = this.getAttribute('data-book-id');
+        const bookName = this.getAttribute('data-book-name');
+        const bookCover = this.getAttribute('data-book-cover');
+        const cartCount = this.getAttribute('data-cart-count');
+        {% comment %} const bookCondition = this.getAttribute('data-book-condition'); {% endcomment %}
+  
+        fetch("{% url 'add_to_cart' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+          },
+          body: JSON.stringify({
+            book_id: bookId,
+            quantity: 1,
+          }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Show popup with book details and cart count
+          showCartPopup({
+            title: bookName,
+            cover: bookCover,
+            {% comment %} condition: bookCondition, {% endcomment %}
+            cartCount: cartCount || 1 // Use cart count from response or default to 1
+          });
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Error adding book to cart.");
+        });
+      });
+    });
+    
+    // Show cart popup with book details
+    function showCartPopup(bookData) {
+      // Update popup content with book data
+      document.getElementById('popup-book-image').src = bookData.cover;
+      document.getElementById('popup-book-title').textContent = bookData.title;
+      document.getElementById('cart-item-count').textContent = bookData.cartCount;
+      {% comment %} document.getElementById('popup-book-condition').textContent = 'Condition: ' + bookData.condition; {% endcomment %}
+      
+      
+      // Show popup
+      cartPopup.classList.remove('hidden');
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        closeCartPopup();
+      }, 5000);
+    }
+    
+    // Close cart popup
+    function closeCartPopup() {
+      cartPopup.classList.add('hidden');
+    }
+  
+    // CSRF helper
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  });
+</script>
 {% endblock %}

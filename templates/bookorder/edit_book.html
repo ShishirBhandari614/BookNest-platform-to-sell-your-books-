@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/add_book.css' %}">
+<div class="form-container">
+    <form class="book-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="book-cover">Book Cover</label>
+            <input type="file" id="book-cover" name="book_cover" accept="image/*">
+            <div class="preview-image" style="background-image: url('{{ book.book_cover.url }}');"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="book-name">Book Name</label>
+            <input type="text" id="book-name" name="book_name" value="{{ book.book_name }}" required class="book-name-input">
+        </div>
+
+        <div class="form-group">
+            <label for="book-author">Author</label>
+            <input type="text" id="book-author" name="author" value="{{ book.author }}" required class="book-author-input">
+        </div>
+
+        <div class="form-group">
+            <label for="book-price">Price (Rs.)</label>
+            <input type="number" id="book-price" name="book_price" step="0.01" min="0" value="{{ book.book_price }}" required class="book-price-input">
+        </div>
+
+        <div class="form-group">
+            <label for="publication-date">Publication Date</label>
+            <input type="date" id="publication-date" name="publication_date" value="{{ book.publication_date|date:'Y-m-d' }}" required class="publication-date-input">
+        </div>
+        
+        <div class="form-group">
+            <label for="book-description">Book Description</label>
+            <textarea id="book-description" name="book_description" rows="8" required class="book-description-textarea">{{ book.book_description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Genre</label>
+            <div class="genre-selector" id="genre-selector">
+                <div class="selected-genres" id="selected-genres"></div>
+                <button type="button" id="genre-button">Select Genres</button>
+            </div>
+            
+            <input type="hidden" id="selected-genres-input" name="genres" value="{{ genres|join:',' }}">
+            
+        </div>
+        
+        <div class="genre-box" id="genre-box">
+            <div class="genre-grid">
+                <div class="genre-item" data-genre="Fantasy">Fantasy</div>
+                <div class="genre-item" data-genre="Sci-Fi">Sci-Fi</div>
+                <div class="genre-item" data-genre="Romance">Romance</div>
+                <div class="genre-item" data-genre="Mystery">Mystery</div>
+                <div class="genre-item" data-genre="Thriller">Thriller</div>
+                <div class="genre-item" data-genre="Horror">Horror</div>
+                <div class="genre-item" data-genre="Biography">Biography</div>
+                <div class="genre-item" data-genre="History">History</div>
+                <div class="genre-item" data-genre="Poetry">Poetry</div>
+                <div class="genre-item" data-genre="Drama">Drama</div>
+                <div class="genre-item" data-genre="Adventure">Adventure</div>
+                <div class="genre-item" data-genre="Children">Children</div>
+                <div class="genre-item" data-genre="Young Adult">Young Adult</div>
+                <div class="genre-item" data-genre="Self-Help">Self-Help</div>
+                <div class="genre-item" data-genre="Business">Business</div>
+                <div class="genre-item" data-genre="Cooking">Cooking</div>
+                <div class="genre-item" data-genre="Art & Design">Art & Design</div>
+                <div class="genre-item" data-genre="Travel">Travel</div>
+                <div class="genre-item" data-genre="Philosophy">Philosophy</div>
+                <div class="genre-item" data-genre="Psychology">Psychology</div>
+                <div class="genre-item" data-genre="Science">Science</div>
+                <div class="genre-item" data-genre="Technology">Technology</div>
+                <div class="genre-item" data-genre="Education">Education</div>
+                <div class="genre-item" data-genre="Comics">Comics</div>
+                <div class="genre-item" data-genre="Health & Fitness">Health & Fitness</div>
+                <div class="genre-item" data-genre="Religion">Religion</div>
+                <div class="genre-item" data-genre="Sports">Sports</div>
+                <div class="genre-item" data-genre="True Crime">True Crime</div>
+                <div class="genre-item" data-genre="Humor">Humor</div>
+                <div class="genre-item" data-genre="Literary Fiction">Literary Fiction</div>
+            </div>
+        </div>
+
+        <button type="button" class="submit-btn" id="trigger-update-modal">Update Book</button>
+    </form>
+</div>
+<!-- Update Confirmation Modal -->
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Confirm Update</h3>
+      <p id="modal-text">Are you sure you want to update this book?</p>
+      <div class="modal-actions">
+        <button id="confirm-update-btn">Yes, Update</button>
+        <button onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const genreButton = document.getElementById('genre-button');
+        const genreBox = document.getElementById('genre-box');
+        const selectedGenres = new Set();
+        const selectedGenresDiv = document.getElementById('selected-genres');
+        const selectedGenresInput = document.getElementById('selected-genres-input');
+        const genreItems = document.querySelectorAll('.genre-item');
+        const form = document.querySelector('.book-form');
+        const triggerUpdateModal = document.getElementById('trigger-update-modal');
+        const confirmUpdateBtn = document.getElementById('confirm-update-btn');
+        const updateModal = document.getElementById('modal');
+    
+        const initialGenres = selectedGenresInput.value.split(',').map(g => g.trim()).filter(Boolean);
+        initialGenres.forEach(g => selectedGenres.add(g));
+    
+        updateGenreDisplay();
+    
+        genreButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            genreBox.style.display = (genreBox.style.display === 'block') ? 'none' : 'block';
+        });
+    
+        genreItems.forEach(item => {
+            const genre = item.dataset.genre;
+            if (selectedGenres.has(genre)) {
+                item.classList.add('selected');
+            }
+    
+            item.addEventListener('click', function () {
+                if (selectedGenres.has(genre)) {
+                    selectedGenres.delete(genre);
+                    item.classList.remove('selected');
+                } else {
+                    selectedGenres.add(genre);
+                    item.classList.add('selected');
+                }
+                updateGenreDisplay();
+            });
+        });
+    
+        selectedGenresDiv.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove')) {
+                const genre = e.target.dataset.genre;
+                selectedGenres.delete(genre);
+                document.querySelector(`.genre-item[data-genre="${genre}"]`).classList.remove('selected');
+                updateGenreDisplay();
+            }
+        });
+    
+        document.addEventListener('click', function (e) {
+            if (!genreBox.contains(e.target) && !genreButton.contains(e.target)) {
+                genreBox.style.display = 'none';
+            }
+        });
+    
+        function updateGenreDisplay() {
+            selectedGenresDiv.innerHTML = '';
+            selectedGenres.forEach(genre => {
+                const tag = document.createElement('div');
+                tag.className = 'genre-tag';
+                tag.innerHTML = `${genre} <span class="remove" data-genre="${genre}">&times;</span>`;
+                selectedGenresDiv.appendChild(tag);
+            });
+            selectedGenresInput.value = Array.from(selectedGenres).join(',');
+        }
+    
+        // Show confirmation modal when "Update Book" button is clicked
+        triggerUpdateModal.addEventListener('click', function () {
+            updateModal.classList.remove('hidden');
+        });
+    
+        // Hide modal
+        function closeModal() {
+            updateModal.classList.add('hidden');
+        }
+        window.closeModal = closeModal; // in case you want to use it inline
+    
+        // Handle confirmed update
+        confirmUpdateBtn.addEventListener('click', async function () {
+            const formData = new FormData(form);
+    
+            try {
+                const response = await fetch(`/edit-book/{{ book.id }}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: formData,
+                });
+    
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Book updated successfully');
+                        window.location.href = result.redirect_url || '/list-book/';
+                    } else {
+                        alert(result.error || 'Failed to update book');
+                    }
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the book');
+            } finally {
+                closeModal();
+            }
+        });
+    });
+    
+</script>
+{% endblock %}

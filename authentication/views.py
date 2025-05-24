@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from . serializer import *
 from rest_framework.response import Response,SimpleTemplateResponse
 from rest_framework import status
+from bookorder.models import Book
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from authentication.models import CustomUser
@@ -18,6 +19,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 import os
 from authentication.authentication import CookieJWTAuthentication
+from bookorder.models import CartItem
 # Create your views here.
 class SellerRegistrationView(APIView):
     def get(self, request):
@@ -307,18 +309,24 @@ class SellerDashboardView(APIView):
 
         return render(request, 'authentication/seller_dashboard.html')
 
+
+def count_cart_items():
+    return CartItem.objects.count()
 class BuyerDashboardView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        total_cart_items = count_cart_items()
+
         user = request.user
 
         if not user.is_buyer:
             print("User is not a buyer")
             return Response({'detail': 'Access denied. User is not a buyer.'}, status=status.HTTP_403_FORBIDDEN)
 
-        return render(request, 'authentication/buyer_dashboard.html')
+        books = Book.objects.all().order_by('?')[:12]  # Random 12 books
+        return render(request, 'authentication/buyer_dashboard.html', {'books': books, 'total_cart_items': total_cart_items})
 
 
 class AdminDashboardView(APIView):
