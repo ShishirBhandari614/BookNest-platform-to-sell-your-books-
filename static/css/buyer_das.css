@@ -1,243 +1,242 @@
 /* Grid container */
 .book-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: flex-start;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+/* Individual card */
+.book-card {
+  width: 200px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Book image */
+.book-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+/* Book info section */
+.book-info {
+  padding: 10px 12px;
+}
+
+.book-info h3 {
+  font-size: 16px;
+  margin: 8px 0 4px;
+  font-weight: 600;
+  color: #333;
+}
+
+.book-info .author {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.book-info .price {
+  font-size: 14px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.add-to-cart,
+.sold-out {
+  display: inline-block;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1.5px solid #000;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.add-to-cart:hover {
+  background-color: #f0f0f0;
+}
+
+.sold-out {
+  background-color: #eee;
+  color: #888;
+  border-color: #888;
+  cursor: not-allowed;
+}
+.buy-now {
+  display: inline-block;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  margin-top: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.buy-now:hover {
+  background-color: #0056b3;
+}
   
-  /* Individual card */
-  .book-card {
-    width: 200px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.2s ease;
-  }
-  
-  .book-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Book image */
-  .book-card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-  }
-  
-  /* Book info section */
-  .book-info {
-    padding: 10px 12px;
-  }
-  
-  .book-info h3 {
-    font-size: 16px;
-    margin: 8px 0 4px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .book-info .author {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 8px;
-  }
-  
-  .book-info .price {
-    font-size: 14px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 10px;
-  }
-  
-  /* Buttons */
-  .add-to-cart,
-  .sold-out {
-    display: inline-block;
-    width: 100%;
-    padding: 8px 0;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1.5px solid #000;
-    background-color: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 10px;
-  }
-  
-  .add-to-cart:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .sold-out {
-    background-color: #eee;
-    color: #888;
-    border-color: #888;
-    cursor: not-allowed;
-  }
-  .buy-now {
-    display: inline-block;
-    width: 100%;
-    padding: 8px 0;
-    font-size: 14px;
-    border-radius: 8px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    margin-top: 6px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buy-now:hover {
-    background-color: #0056b3;
-  }
-    
-  .popup {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    padding: 20px;
-    z-index: 1000;
-    width: 350px;
-    border-radius: 8px;
-  }
-  
-  .popup.hidden {
-    display: none;
-  }
-  
-  .popup .popup-content {
-    position: relative;
-  }
-  
-  .popup .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 18px;
-    cursor: pointer;
-    color: #777;
-  }
-  
-  .popup-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .popup-header .success-icon {
-    color: #4CAF50;
-    margin-right: 10px;
-  }
-  
-  .popup-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0;
-  }
-  
-  .popup-book-details {
-    display: flex;
-    margin-bottom: 15px;
-  }
-  
-  .popup-book-image {
-    width: 80px;
-    height: 100px;
-    object-fit: cover;
-    margin-right: 15px;
-  }
-  
-  .popup-book-info {
-    flex: 1;
-  }
-  
-  .popup-book-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 5px 0;
-  }
-  
-  .popup-book-condition {
-    font-size: 12px;
-    color: #777;
-    margin: 0 0 10px 0;
-  }
-  
-  .popup-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .popup-buttons a {
-    text-decoration: none;
-    text-align: center;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .view-cart-btn {
-    background-color: white;
-    color: #333;
-    border: 1px solid #ddd;
-  }
-  
-  .view-cart-btn:hover {
-    background-color: #1341e8;
-  }
-  
-  .checkout-btn {
-    background-color: #333;
-    color: white;
-    border: none;
-  }
-  
-  .checkout-btn:hover {
-    background-color: #222;
-  }
-  
-  .continue-shopping-btn {
-    background-color: white;
-    color: #333;
-    border: none;
-    text-decoration: underline;
-    text-align: center;
-    padding: 5px;
-    margin-top: 5px;
-  }
-  
-  .popup-buttons a,
-  .popup-buttons button {
-    text-decoration: none;
-    background-color: black;
-    color: white;
-    padding: 8px;
-    border: none;
-    text-align: center;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cart-count {
-    font-size: 14px;
-    color: #555;
-    margin: 0 1px 8px 0;
-  }
-  
-  .cart-count span {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 1000;
+  width: 350px;
+  border-radius: 8px;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup .popup-content {
+  position: relative;
+}
+
+.popup .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+  cursor: pointer;
+  color: #777;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.popup-header .success-icon {
+  color: #4CAF50;
+  margin-right: 10px;
+}
+
+.popup-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.popup-book-details {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.popup-book-image {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.popup-book-info {
+  flex: 1;
+}
+
+.popup-book-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+}
+
+.popup-book-condition {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 10px 0;
+}
+
+.popup-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-buttons a {
+  text-decoration: none;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-cart-btn {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.view-cart-btn:hover {
+  background-color: #1341e8;
+}
+
+.checkout-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+}
+
+.checkout-btn:hover {
+  background-color: #222;
+}
+
+.continue-shopping-btn {
+  background-color: white;
+  color: #333;
+  border: none;
+  text-decoration: underline;
+  text-align: center;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.popup-buttons a,
+.popup-buttons button {
+  text-decoration: none;
+  background-color: black;
+  color: white;
+  padding: 8px;
+  border: none;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-count {
+  font-size: 14px;
+  color: #555;
+  margin: 0 1px 8px 0;
+}
+
+.cart-count span {
+  font-weight: bold;
+  color: #007bff;
+}

@@ -1,7 +1,7 @@
 # from re import A
 from django.db import models
 from authentication.models import CustomUser
-
+from django.conf import settings
 
 class Book(models.Model):
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='books' )
@@ -13,10 +13,17 @@ class Book(models.Model):
     author = models.CharField(max_length=255, default='Unknown Author')  # Provide a default value
     publication_date = models.DateField(null=True, blank=True)
     sold = models.BooleanField(default=False)
+    available_quantity = models.PositiveIntegerField(default=1)
+    condition = models.CharField(
+        max_length=10,
+        choices=[('New', 'New'), ('Old', 'Old')],
+        default='Old'
+    )
+
 
     def __str__(self):
         return self.book_name
-from django.conf import settings
+
 
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

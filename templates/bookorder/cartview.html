@@ -1,0 +1,81 @@
+{% extends 'buyer_base.html' %}
+{% load static %}
+
+{% block content %}
+{% csrf_token %}
+<link rel="stylesheet" href="{% static 'css/cartview.css' %}">
+
+<div class="cart-container">
+    <h2>Your Cart</h2>
+  
+    <!-- Cart Header -->
+    <div class="cart-row cart-header">
+      <div class="cart-col product-col">Product</div>
+      <div class="cart-col quantity-col">Quantity</div>
+      <div class="cart-col total-col">Total</div>
+    </div>
+  
+    <!-- Cart Item -->
+    {% for item in cart_items %}
+    <div class="cart-row cart-item">
+      <!-- Product Info -->
+      <div class="cart-col product-col">
+        <div class="product-info">
+          <img src="{{ item.book.book_cover.url }}" alt="{{ item.book.book_name }}">
+          <div class="product-details">
+            <div class="book-title">{{ item.book.book_name }}</div>
+            <div class="price">Rs{{ item.book.book_price }}</div>
+            <div class="condition">Condition: {{ item.book.condition }}</div>
+            <div class="seller-books">Seller's total available books: {{ item.seller_books_count }}</div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Quantity Controls -->
+      <div class="quantity-col">
+        <div class="quantity-wrapper" data-available="{{ item.seller_books_count }}">
+          <div class="quantity-controls">
+            <button class="qty-btn minus">−</button>
+            <input type="text" value="{{ item.quantity }}" class="qty-input" readonly>
+            <button class="qty-btn plus">+</button>
+            <button class="delete-btn" data-book-id="{{ item.book.id }}">🗑️</button>
+          </div>
+          <div class="quantity-msg"></div> <!-- MESSAGE BELOW CONTROLS -->
+        </div>
+      </div>
+      
+  
+      <!-- Total Price -->
+      <div class="cart-col total-col item-total-price" data-unit-price="{{ item.book.book_price }}">
+        Rs<span class="item-total-amount">{{ item.total_cart_price }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  
+    <!-- Cart Footer -->
+    <div class="cart-footer">
+      <div class="special-instructions">
+        <label for="instructions">Order special instructions</label>
+        <textarea id="instructions" rows="4" placeholder="Enter instructions here..."></textarea>
+      </div>
+  
+      <div class="checkout-section">
+        <div class="estimated-total">
+          Estimated Total: <strong>Rs<span id="cart-total">{{ total }}</span> NPR</strong>
+        </div>
+        <div class="checkout-buttons">
+          <button class="checkout-btn">Check out</button>
+          <button class="payment-option">Shop Pay</button>
+          <button class="payment-option">GPay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/cart_functionality.js' %}"></script>
+  <script src="{% static 'js/delete_cart.js' %}"></script>
+      
+    
+    
+  
+{% endblock %}

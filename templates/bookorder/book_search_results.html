@@ -1,5 +1,6 @@
 {% extends 'buyer_base.html' %}
 {% load static %}
+
 {% block content %}
 {% csrf_token %}
 <link rel="stylesheet" href="{% static 'css/buyer_das.css' %}">
@@ -20,8 +21,7 @@
           <a href="#" class="add-to-cart" 
              data-book-id="{{ book.id }}"
              data-book-name="{{ book.book_name }}"
-             data-book-cover="{{ book.book_cover.url }}"
-             data-book-condition="{{ book.condition }}">
+             data-book-cover="{{ book.book_cover.url }}">
             Add to cart
           </a>
           <a href="{% url 'buy_book' book.id %}" class="buy-now">Buy Now</a>
@@ -30,7 +30,8 @@
     </div>
   {% endfor %}
   
-
+  <!-- Enhanced Cart Popup -->
+    <!-- Enhanced Cart Popup -->
     <div id="cartPopup" class="popup hidden">
       <div class="popup-content">
         <span class="close">&times;</span>
@@ -42,21 +43,18 @@
           <img id="popup-book-image" src="" alt="" class="popup-book-image">
           <div class="popup-book-info">
             <h4 id="popup-book-title" class="popup-book-title"></h4>
-            <p id="popup-book-condition" class="popup-book-condition"></p>
             <p class="cart-count">Cart items: <span id="cart-item-count">0</span></p>
-
             {% comment %} <p id="popup-book-condition" class="popup-book-condition"></p> {% endcomment %}
             
           </div>
         </div>
         <div class="popup-buttons">
-          <a href="{% url 'view_cart' %}" class="view-cart-btn">View cart</a>
+          <a href="#" class="view-cart-btn">View cart</a>
           <a href="#" class="checkout-btn">Check out</a>
           <a href="#" class="continue-shopping-btn" id="continueShoppingBtn">Continue shopping</a>
         </div>
       </div>
     </div>
 </div>
-
 <script src="{% static 'js/add_to_cart.js' %}"></script>
 {% endblock %}

@@ -5,6 +5,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'  # Includes all model fields
+        read_only_fields = ['seller']
         
     def __init__(self, *args, **kwargs):
         # 1. Initialize parent class first
@@ -26,3 +27,9 @@ class CartItemSerializer(serializers.ModelSerializer):
 class AddToCartSerializer(serializers.Serializer):
     book_id = serializers.IntegerField()
     quantity = serializers.IntegerField(min_value=1, default=1)
+    
+
+class BookSuggestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ['id', 'book_name', 'author', 'book_price']

@@ -59,91 +59,36 @@
                 <div class="genre-item">Literary Fiction</div>
             </div>
         </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search">
-            <button><i class="fas fa-search"></i></button>
+        <div class="search-container">
+            <form action="/search-results/" method="GET" class="search-form">
+                <input type="text" name="search" id="search-input" placeholder="Search books..." class="search-input" autocomplete="off">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <div id="search-results" class="search-results"></div>
         </div>
+            
+        
         <div class="nav-icons">
             <i class="fas fa-sync-alt"></i>
             <i class="fas fa-heart"></i>
             <i class="fas fa-user"></i>
-            <i class="fas fa-shopping-cart"></i>
+            <div class="cart-icon">  <!-- Group icon and count here -->
+                <a href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count" id="navbar-cart-count">{{ total_cart_items }}</span>
+            </div>
+        
             <span>Rs 0.00</span>
         </div>
+        
     </nav>
     <div class="content">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
+    
+        {% block scripts %}{% endblock %}
     </div>
 
-    <script>
-        document.getElementById('hamburger').addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent click from bubbling to document
-            document.getElementById('dropdown').classList.toggle('show');
-        });
-
-        // Close dropdown when clicking anywhere else on the document
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('dropdown');
-            const hamburger = document.getElementById('hamburger');
-            if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        document.getElementById('see-more').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('more-genres').classList.toggle('show');
-        });
-
-        // Handle genre toggle
-        document.getElementById('genre-toggle').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('genre-panel').classList.toggle('show-genre');
-            // Toggle the arrow icon direction
-            const arrow = this.querySelector('i');
-            if (arrow.classList.contains('fa-chevron-right')) {
-                arrow.classList.remove('fa-chevron-right');
-                arrow.classList.add('fa-chevron-down');
-            } else {
-                arrow.classList.remove('fa-chevron-down');
-                arrow.classList.add('fa-chevron-right');
-            }
-        });
-        
-        // Close genre panel when clicking outside
-        document.addEventListener('click', function(e) {
-            const genrePanel = document.getElementById('genre-panel');
-            const genreToggle = document.getElementById('genre-toggle');
-            
-            if (!genreToggle.contains(e.target) && !genrePanel.contains(e.target)) {
-                genrePanel.classList.remove('show-genre');
-                const arrow = genreToggle.querySelector('i');
-                arrow.classList.remove('fa-chevron-down');
-                arrow.classList.add('fa-chevron-right');
-            }
-        });
-    </script>
-
-    <!-- Add this CSS in the head section -->
-    
-    <!-- Update the JavaScript section -->
-    <script>
-        // Add this new code for genre box
-        const genreBrowse = document.querySelector('.genre-browse');
-        const genreBox = document.getElementById('genre-box');
-
-        genreBrowse.addEventListener('click', function(e) {
-            e.stopPropagation();
-            genreBox.classList.toggle('show-genre-box');
-        });
-
-        // Close genre box when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!genreBox.contains(e.target) && !genreBrowse.contains(e.target)) {
-                genreBox.classList.remove('show-genre-box');
-            }
-        });
-    </script>
+    <script src="{% static 'js/buyer_base.js' %}"></script>
 </body>
 </html>

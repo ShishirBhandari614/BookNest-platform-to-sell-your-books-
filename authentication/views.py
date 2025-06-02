@@ -19,7 +19,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 import os
 from authentication.authentication import CookieJWTAuthentication
-from bookorder.models import CartItem
+from bookorder.models import CartItem, Cart
 # Create your views here.
 class SellerRegistrationView(APIView):
     def get(self, request):
@@ -310,22 +310,25 @@ class SellerDashboardView(APIView):
         return render(request, 'authentication/seller_dashboard.html')
 
 
-def count_cart_items():
-    return CartItem.objects.count()
+def count_cart_items(user):
+    try:
+        cart = Cart.objects.get(user=user)
+        return cart.items.count()  # using related_name='items' from your CartItem model
+    except Cart.DoesNotExist:
+        return 0
+
 class BuyerDashboardView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        total_cart_items = count_cart_items()
-
         user = request.user
-
+        total_cart_items = count_cart_items(user)
         if not user.is_buyer:
             print("User is not a buyer")
             return Response({'detail': 'Access denied. User is not a buyer.'}, status=status.HTTP_403_FORBIDDEN)
 
-        books = Book.objects.all().order_by('?')[:12]  # Random 12 books
+        books = Book.objects.all().order_by('?')  # Get all books in random order
         return render(request, 'authentication/buyer_dashboard.html', {'books': books, 'total_cart_items': total_cart_items})
 
 
