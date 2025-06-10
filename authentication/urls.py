@@ -14,6 +14,7 @@ urlpatterns = [
     path('admin-dashboard/', AdminDashboardView.as_view(), name='admin-dashboard'),
     path('check-username/', check_username, name='check-username'),
     path('check-email/', check_email, name='check-email'),
+    path('check-phone/', check_phone, name='check-phone'),
     path('seller-dashboard/', SellerDashboardView.as_view(), name='seller-dashboard'),
     path('buyer-dashboard/', BuyerDashboardView.as_view(), name='buyer-dashboard'),
 ]

@@ -61,13 +61,42 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 # Seller Profile Model
 class SellerProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="seller_profile") 
-    phone_number = models.CharField(max_length=15)
-    full_name = models.CharField(max_length=255)
-    address = models.TextField()
+    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE, related_name='seller_profile')
+    seller_type = models.CharField(max_length=10, choices=[('personal', 'Personal'), ('corporate', 'Corporate')])
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    # Add any fields common to all sellers here
+
+    class Meta:
+        verbose_name = 'Seller Profile'
+        verbose_name_plural = 'Seller Profiles'
 
     def __str__(self):
-        return f"{self.full_name} ({self.user.email})"
+        return f"{self.user.username} ({self.seller_type})"
+
+class PersonalSellerProfile(SellerProfile):
+    full_name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+    # Add any other personal-specific fields
+
+    class Meta:
+        verbose_name = 'Personal Seller Profile'
+        verbose_name_plural = 'Personal Seller Profiles'
+
+    def __str__(self):
+        return f"{self.full_name} (Personal Seller)"
+
+class CorporateSellerProfile(SellerProfile):
+    store_name = models.CharField(max_length=255)
+    address = models.TextField()
+    phone_number = models.CharField(max_length=15)
+    # Add any other corporate-specific fields
+
+    class Meta:
+        verbose_name = 'Corporate Seller Profile'
+        verbose_name_plural = 'Corporate Seller Profiles'
+
+    def __str__(self):
+        return f"{self.store_name} (Corporate Seller)"
 
 # Buyer Profile Model
 class BuyerProfile(models.Model):

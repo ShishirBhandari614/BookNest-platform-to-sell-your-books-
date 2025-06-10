@@ -1,6 +1,6 @@
 # from re import A
 from django.shortcuts import render
-from authentication.models import CustomUser, BuyerProfile,SellerProfile
+from authentication.models import CustomUser, BuyerProfile,PersonalSellerProfile,CorporateSellerProfile
 from .decorators import admin_required
 from rest_framework_simplejwt.tokens import AccessToken
 from django.http import HttpResponseForbidden, JsonResponse
@@ -37,7 +37,7 @@ class BuyerList(APIView):
         return render(request, 'adminsettings/buyerlist.html', {'users': users})
         
 
-class SellerList(APIView):
+class PersonalSellerList(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
     def get(self, request):
@@ -45,7 +45,16 @@ class SellerList(APIView):
         # print(user)
         if not request.user.is_superuser:
             return HttpResponseForbidden("You are not authorized to access this page.")
-        users = SellerProfile.objects.all()
+        users = PersonalSellerProfile.objects.all()
         return render(request, 'adminsettings/sellerlist.html', {'users': users})
     
-    
+class CorporateSellerList(APIView):
+    authentication_classes = [CookieJWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        # user = request.user
+        # print(user)
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("You are not authorized to access this page.") 
+        users = CorporateSellerProfile.objects.all()
+        return render(request, 'adminsettings/sellerlist.html', {'users': users})

@@ -217,6 +217,22 @@ body, h1, h2, h3, p, ul, li, a {
     align-items: center;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.form-container {
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    max-width: 400px;
+    width: 100%;
+}
+
 .admin-login, .seller-login, .buyer-login {
     position: relative;
 }

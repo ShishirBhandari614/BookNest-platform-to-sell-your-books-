@@ -23,12 +23,17 @@ from bookorder.models import CartItem, Cart
 # Create your views here.
 class SellerRegistrationView(APIView):
     def get(self, request):
-        serializer = SellerSignupSerializer()
-        return SimpleTemplateResponse('authentication/signup.html', {'serializer': serializer})
+        serializer1 = PersonalSellerSignupSerializer()
+        serializer2 = CorporateSellerSignupSerializer()
+        return SimpleTemplateResponse('authentication/signup.html', {'serializer1': serializer1, 'serializer2': serializer2})
 
     def post(self, request):
         try:
-            serializer = SellerSignupSerializer(data=request.data)
+            seller_type = request.data.get('seller_type')
+            if seller_type == 'corporate':
+                serializer = CorporateSellerSignupSerializer(data=request.data)
+            else:
+                serializer = PersonalSellerSignupSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response({
@@ -58,7 +63,10 @@ class SellerRegistrationView(APIView):
                 'status': 'error',
                 'errors': {'general': str(e)}
             }, status=status.HTTP_400_BAD_REQUEST)
-            
+
+
+
+
             
 class BuyerRegistrationView(APIView):
     def get(self, request):
@@ -295,7 +303,29 @@ def check_email(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
     
-    
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def check_phone(request):
+    try:
+        data = json.loads(request.body)
+        phone = data.get('phone')
+        exists = BuyerProfile.objects.filter(phone_number=phone).exists()
+        return JsonResponse({'exists': exists})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def check_phone(request):
+    try:
+        data = json.loads(request.body)
+        phone = data.get('phone')
+        exists = CustomUser.objects.filter(phone_number=phone).exists()
+        return JsonResponse({'exists': exists})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 class SellerDashboardView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -344,3 +374,4 @@ class AdminDashboardView(APIView):
             return Response({'detail': 'Access denied. User is not an admin.'}, status=status.HTTP_403_FORBIDDEN)
 
         return render(request, 'authentication/admindas.html')
+

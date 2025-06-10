@@ -250,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorMessage = error.message;
             }
             alert(errorMessage);
+
+            restoreAccountFields();
         })
         .finally(() => {
             // Reset button state

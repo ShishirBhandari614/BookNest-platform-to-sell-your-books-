@@ -1,94 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookNest - Sign Up</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup Page</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <div class="form-header">
-                <h1>Create Account</h1>
-                <p>Join BookNest and start your reading journey</p>
+  <div class="container">
+    <div class="form-container">
+      <div class="form-header">
+        <h1>Sign Up</h1>
+        <p>Please choose an account type to get started.</p>
+      </div>
+
+      
+      <form id="signupForm" method="post" action="{% url 'seller-registration' %}">
+        {% csrf_token %}
+        <div class="account-type-group">
+            <div class="account-type-buttons">
+              <button id="personalBtn" class="account-type-btn active">Personal</button>
+              <button id="corporateBtn" class="account-type-btn">Corporate</button>
             </div>
-            <form id="signupForm" class="signup-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" required>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone_number">Phone Number</label>
-                    <div class="input-group">
-                        <i class="fas fa-phone"></i>
-                        <input type="tel" id="phone_number" name="phone_number" required>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="full_name">Full Name</label>
-                    <div class="input-group">
-                        <i class="fas fa-id-card"></i>
-                        <input type="text" id="full_name" name="full_name" required>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <div class="input-group">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <textarea id="address" name="address" required></textarea>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" required>
-                        <i class="fas fa-eye-slash toggle-password"></i>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="password2">Confirm Password</label>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password2" name="password2" required>
-                        <i class="fas fa-eye-slash toggle-password"></i>
-                    </div>
-                    <span class="error-message"></span>
-                </div>
-
-                <button type="submit" class="submit-btn">Create Account</button>
-            </form>
-            <div class="form-footer">
-                <p>Already have an account? <a href="{% url 'seller-login' %}">Login here</a></p>
+          </div>
+        <!-- Personal Fields -->
+        <div id="personalFields">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-group">
+              <i class="fas fa-user"></i>
+              <input type="text" id="name" name="name" required />
             </div>
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-group">
+              <i class="fas fa-user-tag"></i>
+              <input type="text" id="username" name="username" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email_personal">Email</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email_personal" name="email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone_personal">Phone</label>
+            <div class="input-group">
+              <i class="fas fa-phone"></i>
+              <input type="text" id="phone_personal" name="phone" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password_personal">Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password_personal" name="password" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirm_password" name="confirm_password" required />
+            </div>
+          </div>
         </div>
+
+        <!-- Corporate Fields -->
+        <div id="corporateFields" style="display: none;">
+          <div class="form-group">
+            <label for="store_name">Store Name</label>
+            <div class="input-group">
+              <i class="fas fa-store"></i>
+              <input type="text" id="store_name" name="store_name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Store Address</label>
+            <div class="input-group">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" id="address" name="address" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email_corporate">Email</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email_corporate" name="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone_corporate">Phone</label>
+            <div class="input-group">
+              <i class="fas fa-phone"></i>
+              <input type="text" id="phone_corporate" name="phone" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password_corporate">Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password_corporate" name="password" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirm_password_corporate">Confirm Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirm_password_corporate" name="confirm_password" required />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Sign Up</button>
+      </form>
+
+      <div class="form-footer">
+        Already have an account? <a href="/seller-login/">Login here</a>
+      </div>
     </div>
-    <script src="{% static 'js/signup.js' %}"></script>
+  </div>
+  <script src="{% static 'js/signup.js' %}"></script>
+
+  <script>
+    const personalBtn = document.getElementById('personalBtn');
+    const corporateBtn = document.getElementById('corporateBtn');
+    const personalFields = document.getElementById('personalFields');
+    const corporateFields = document.getElementById('corporateFields');
+    const form = document.getElementById('signupForm');
+  
+    function toggleRequiredFields(visibleSection, hiddenSection) {
+      // Enable required for visible fields
+      visibleSection.querySelectorAll('input').forEach(input => {
+        if (input.dataset.originalRequired === "true") {
+          input.required = true;
+        }
+      });
+  
+      // Disable required for hidden fields
+      hiddenSection.querySelectorAll('input').forEach(input => {
+        input.dataset.originalRequired = input.required ? "true" : "false";
+        input.required = false;
+      });
+    }
+  
+    personalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      personalFields.style.display = 'block';
+      corporateFields.style.display = 'none';
+      personalBtn.classList.add('active');
+      corporateBtn.classList.remove('active');
+      toggleRequiredFields(personalFields, corporateFields);
+    });
+  
+    corporateBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      corporateFields.style.display = 'block';
+      personalFields.style.display = 'none';
+      corporateBtn.classList.add('active');
+      personalBtn.classList.remove('active');
+      toggleRequiredFields(corporateFields, personalFields);
+    });
+  
+    // Ensure proper required state on page load (optional, if default is personal)
+    window.addEventListener('DOMContentLoaded', () => {
+      toggleRequiredFields(personalFields, corporateFields);
+    });
+  </script>
+  
+  
 </body>
 </html>
