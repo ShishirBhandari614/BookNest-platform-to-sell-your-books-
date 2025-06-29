@@ -247,3 +247,21 @@ class RemoveCartItemAPIView(APIView):
             return Response({'detail': 'Item removed from cart.'}, status=status.HTTP_204_NO_CONTENT)
         except CartItem.DoesNotExist:
             return Response({'detail': 'Item not found in cart.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import CheckoutAddressSerializer
+from .models import CheckoutAddress
+
+class CheckoutAPIView(APIView):
+    def post(self, request):
+        serializer = CheckoutAddressSerializer(data=request.data, many=isinstance(request.data, list))
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "Checkout information saved successfully.",
+                "data": serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -41,3 +41,32 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.book.book_name} x {self.quantity}"
 
+from django.db import models
+
+class CheckoutAddress(models.Model):
+    DELIVERY_CHOICES = [
+        ('ship', 'Ship'),
+        ('pickup', 'Pickup in Store'),
+    ]
+
+    PAYMENT_CHOICES = [
+        ('cod', 'Cash on Delivery'),
+        ('card', 'Card Payment'),
+        ('esewa', 'Esewa'),
+    ]
+
+    email = models.EmailField()
+    delivery_option = models.CharField(max_length=10, choices=DELIVERY_CHOICES)
+    country = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    city = models.CharField(max_length=100)
+    province = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    payment_option = models.CharField(max_length=20, choices=PAYMENT_CHOICES)
+    address_type = models.CharField(max_length=10, choices=[('shipping', 'Shipping'), ('billing', 'Billing')])
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.address_type} - {self.first_name} {self.last_name}"

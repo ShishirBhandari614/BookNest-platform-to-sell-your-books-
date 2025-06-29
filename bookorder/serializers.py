@@ -1,6 +1,6 @@
-from rest_framework import serializers
 from .models import Book, CartItem
-
+from rest_framework import serializers
+from .models import CheckoutAddress
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
@@ -33,3 +33,11 @@ class BookSuggestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'book_name', 'author', 'book_price']
+        
+        
+
+
+class CheckoutAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CheckoutAddress
+        fields = '__all__'

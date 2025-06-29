@@ -13,6 +13,7 @@ urlpatterns = [
     path('search-results/', BookSearchResultsAPIView.as_view(), name='search_results'),
     path('cart/', CartView.as_view(), name='view_cart'),
     path('cart/remove/<int:book_id>/', RemoveCartItemAPIView.as_view(), name='cart-remove-item'),
+    path('checkout/', CheckoutAPIView.as_view(), name='checkout'),
 ] 
 
 

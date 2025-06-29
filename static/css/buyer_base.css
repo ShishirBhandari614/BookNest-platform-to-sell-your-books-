@@ -4,6 +4,15 @@ body {
     padding: 0;
 }
 
+.logo img {
+    height: 45px;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
 .navbar {
     display: flex;
     align-items: center;
